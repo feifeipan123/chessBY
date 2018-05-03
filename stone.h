@@ -25,6 +25,7 @@ public:
     TYPE _type;
     void init(int id);
     QString getText();
+    void rotate();
 };
 
 #endif // STONE_H
