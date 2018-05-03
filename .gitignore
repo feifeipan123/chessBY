@@ -1,0 +1,9 @@
+﻿# IDE
+.idea
+.idea/*
+
+# IIS
+aspnet_client
+
+# VSCode
+.vscode
