@@ -334,6 +334,12 @@ bool Board::canMove(int moveid,int row,int col,int killid){
     }
 }
 
+void Board::reliveStone(int id)
+{
+    if(id==-1) return;
+    _s[id]._dead = false;
+}
+
 void Board::killStone(int id)
 {
     if(id==-1) return;
@@ -343,6 +349,18 @@ void Board::killStone(int id)
 bool Board::canSelect(int id)
 {
     return _bRedTurn == _s[id]._red;
+}
+
+void Board::saveStep(int moveid, int killid, int row, int col, QVector<Step*>& steps){
+    GetRowCol(row1, col1, moveid);
+    Step* step = new Step;
+    step->_colFrom = col1;
+    step->_colTo = col;
+    step->_rowFrom = row1;
+    step->_rowTo = row;
+    step->_moveid = moveid;
+    step->_killid = killid;
+    steps.append(step);
 }
 
 void Board::moveStone(int moveid, int row, int col)
@@ -355,6 +373,7 @@ void Board::moveStone(int moveid, int row, int col)
 
 void Board::moveStone(int moveid, int row, int col,int killid)
 {
+    saveStep(moveid, killid, row, col, _steps);//保存走棋步骤
     killStone(killid);
     moveStone(moveid, row, col);
 }

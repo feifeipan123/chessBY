@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "stone.h"
+#include "step.h"
 
 class Board : public QWidget
 {
@@ -12,6 +13,8 @@ public:
     Stone _s[32];
     int _r;//棋子的半径
     bool _bSide;
+
+    QVector<Step*> _steps;
 
     /*game status*/
     int _selectid;//选中的棋子标号
@@ -24,6 +27,7 @@ public:
 
     int getStoneId(int row, int col);
     void killStone(int id);
+    void reliveStone(int id);
     bool isDead(int id);
     bool sameColor(int id1, int id2);
     bool red(int id);
@@ -35,7 +39,8 @@ public:
     void trySelectStone(int id);
     void tryMoveStone(int killid, int row, int col);
     void moveStone(int moveid, int row, int col,int killid);
-     void moveStone(int moveid, int row, int col);
+    void moveStone(int moveid, int row, int col);
+    void saveStep(int moveid, int killid, int row, int col, QVector<Step*>& steps);
 
     /* rule */
     bool canMove(int moveid,int row,int col,int killid);
@@ -45,8 +50,8 @@ public:
     bool canMoveMa(int moveid, int row, int col, int);
     bool canMoveBing(int moveid, int row, int col, int);
     bool canMoveChe(int moveid, int row, int col,int killid);
-     bool canMovePao(int moveid, int row, int col,int killid);
-     bool canSelect(int id);
+    bool canMovePao(int moveid, int row, int col,int killid);
+    bool canSelect(int id);
 
     /* draw functions */
     void paintEvent(QPaintEvent *);
