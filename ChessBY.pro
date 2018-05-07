@@ -2,12 +2,14 @@ HEADERS += \
     board.h \
     stone.h \
     singlegame.h \
-    step.h
+    step.h \
+    netgame.h
 
 SOURCES += \
     board.cpp \
     main.cpp \
     stone.cpp \
     singlegame.cpp \
-    step.cpp
-QT += widgets gui
+    step.cpp \
+    netgame.cpp
+QT += widgets gui network

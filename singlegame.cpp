@@ -1,15 +1,29 @@
 ﻿#include "singlegame.h"
 #include <QDebug>
+#include <QTimer>
+
+SingleGame::SingleGame():_level(3){
+
+}
 
 void SingleGame::click(int id, int row, int col){
     if(!this->_bRedTurn)
         return;
     Board::click(id,row,col);
     if(!this->_bRedTurn){
-        Step* step=getBestMove();
-        moveStone(step->_moveid,step->_rowTo,step->_colTo,step->_killid);
-        delete step;
+        /*启动0.1秒定时器，在0.1秒后电脑再思考*/
+        QTimer::singleShot(100,this,SLOT(computerMove()));
     }
+<<<<<<< HEAD
+=======
+}
+
+void SingleGame::computerMove(){
+    Step* step=getBestMove();
+    moveStone(step->_moveid,step->_rowTo,step->_colTo,step->_killid);
+    delete step;
+    update();
+>>>>>>> origin/master
 }
 
 void SingleGame::getAllPossibleMove(QVector<Step *> &steps){
@@ -31,7 +45,36 @@ void SingleGame::getAllPossibleMove(QVector<Step *> &steps){
     }
 }
 
-int SingleGame::getMinScore(){
+int SingleGame::getMaxScore(int level,int curMinScore){
+    if(level==0)return calcScore();
+    //1.看看有哪些不走可以走
+      QVector<Step*> steps;
+      getAllPossibleMove(steps);//黑棋的PossibleMove
+      int maxScore=-100000;//最高分
+      while(steps.count()){
+          Step *step=steps.back();
+          steps.removeLast();
+          fakeMove(step);
+          int score=getMinScore(level-1,maxScore);
+          unfakeMove(step);
+          delete step;
+          if(score>=curMinScore){
+              while(steps.count()){
+                  Step* step = steps.last();
+                  steps.removeLast();
+                  delete step;
+              }
+              return score;
+          }
+          if(score>maxScore){
+              maxScore=score;
+          }
+      }
+      return maxScore;
+}
+
+int SingleGame::getMinScore(int level,int curMaxScore){
+    if(level==0)return calcScore();
     //1.看看有哪些不走可以走
       QVector<Step*> steps;
       getAllPossibleMove(steps);//红棋的PossibleMove
@@ -40,12 +83,20 @@ int SingleGame::getMinScore(){
           Step *step=steps.back();
           steps.removeLast();
           fakeMove(step);
-          int score=calcScore();
+          int score=getMaxScore(level-1,minScore);
           unfakeMove(step);
+           delete step;
+          if(score<=curMaxScore){
+              while(steps.count()){
+                  Step* step = steps.last();
+                  steps.removeLast();
+                  delete step;
+              }
+               return score;
+          }
           if(score<minScore){
               minScore=score;
           }
-          delete step;
       }
       return minScore;
 }
@@ -67,7 +118,7 @@ Step* SingleGame::getBestMove(){
          Step *step=steps.back();
          steps.removeLast();
          fakeMove(step);
-         int score=getMinScore();
+         int score=getMinScore(_level-1,maxScore);
          unfakeMove(step);
          if(score>maxScore){
              maxScore=score;
