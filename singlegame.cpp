@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QTimer>
 
-SingleGame::SingleGame():_level(6){
+SingleGame::SingleGame():_level(3){
 
 }
 
