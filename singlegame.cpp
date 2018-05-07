@@ -10,7 +10,6 @@ void SingleGame::click(int id, int row, int col){
         moveStone(step->_moveid,step->_rowTo,step->_colTo,step->_killid);
         delete step;
     }
-
 }
 
 void SingleGame::getAllPossibleMove(QVector<Step *> &steps){
