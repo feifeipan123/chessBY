@@ -14,8 +14,6 @@ void SingleGame::click(int id, int row, int col){
         /*启动0.1秒定时器，在0.1秒后电脑再思考*/
         QTimer::singleShot(100,this,SLOT(computerMove()));
     }
-<<<<<<< HEAD
-=======
 }
 
 void SingleGame::computerMove(){
@@ -23,7 +21,6 @@ void SingleGame::computerMove(){
     moveStone(step->_moveid,step->_rowTo,step->_colTo,step->_killid);
     delete step;
     update();
->>>>>>> origin/master
 }
 
 void SingleGame::getAllPossibleMove(QVector<Step *> &steps){

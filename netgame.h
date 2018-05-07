@@ -12,8 +12,10 @@ public:
     ~NetGame();
     QTcpServer* _server;
     QTcpSocket* _socket;
+    void click(int id,int row,int col);
 public slots:
     void slotNewConnection();
+    void slotRecv();
 };
 
 #endif // NETGAME_H
