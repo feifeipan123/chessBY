@@ -46,7 +46,6 @@ void NetGame::slotNewConnection(){
     buf[1] = 0;
     _socket->write(buf,2);
     init(buf[1]==0);
-
 }
 
 void NetGame::slotRecv(){

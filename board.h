@@ -41,6 +41,9 @@ public:
     void moveStone(int moveid, int row, int col,int killid);
     void moveStone(int moveid, int row, int col);
     void saveStep(int moveid, int killid, int row, int col, QVector<Step*>& steps);
+    void backOne();
+    void back(Step* step);
+    virtual void back();
 
     /* rule */
     bool canMove(int moveid,int row,int col,int killid);
@@ -65,6 +68,7 @@ public:
 signals:
 
 public slots:
+    void slotBack();
 };
 
 #endif

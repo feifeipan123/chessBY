@@ -9,7 +9,7 @@
 Board::Board(QWidget *parent) : QWidget(parent),_selectid(-1)
 {
     this->_r = 20;
-    setMinimumSize(_r*18+1, _r*20+1);
+    setMinimumSize(_r*18+20, _r*20+20);
     init(true);
 }
 
@@ -492,4 +492,32 @@ void Board::mouseReleaseEvent(QMouseEvent *ev){
 //            update();
 //        }
 //    }
+}
+
+void Board::back(Step *step)
+{
+    reliveStone(step->_killid);
+    moveStone(step->_moveid, step->_rowFrom, step->_colFrom);
+}
+
+void Board::backOne()
+{
+    if(this->_steps.size() == 0) return;
+
+    Step* step = this->_steps.last();
+    _steps.removeLast();
+    back(step);
+
+    update();
+    delete step;
+}
+
+void Board::back()
+{
+    backOne();
+}
+
+void Board::slotBack()
+{
+    back();
 }
